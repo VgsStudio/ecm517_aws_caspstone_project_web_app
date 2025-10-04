@@ -107,13 +107,13 @@ resource "aws_security_group_rule" "allow_mysql_inbound" {
 }
 
 resource "aws_security_group_rule" "allow_mysql_from_cloud9" {
-  type                     = "ingress"
-  from_port                = 3306
-  to_port                  = 3306
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.rds_sg.id
-  source_security_group_id = aws_security_group.cloud9_sg.id
-  description              = "Allow MySQL inbound traffic from Cloud9 SG"
+  type              = "ingress"
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  cidr_blocks       = ["10.0.1.195/32"]
+  security_group_id = aws_security_group.rds_sg.id
+  description       = "Allow MySQL inbound traffic from Cloud9 SG"
 }
 
 resource "aws_security_group_rule" "allow_all_outbound_rds" {
