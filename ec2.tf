@@ -62,7 +62,7 @@ resource "aws_instance" "web_server_1" {
   subnet_id                   = aws_subnet.public_subnet_1.id
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
   associate_public_ip_address = true
-  user_data                   = file("${path.module}/UserdataScript-phase-2.sh")
+  user_data                   = file("${path.module}/scripts/UserdataScript-phase-2.sh")
 
   tags = {
     Name   = "project-webapp-web-server-1"
