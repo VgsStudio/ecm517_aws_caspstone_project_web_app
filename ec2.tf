@@ -67,3 +67,36 @@ resource "aws_instance" "web_server_1" {
     Name = "project-webapp-web-server-1"
   }
 }
+
+# RDS SG
+resource "aws_security_group" "rds_sg" {
+  name        = "project-webapp-rds-sg"
+  description = "Security group for RDS via terraform"
+  vpc_id      = aws_vpc.main_vpc.id
+
+  tags = {
+    Name = "project-webapp-rds-sg"
+  }
+
+}
+
+resource "aws_security_group_rule" "allow_mysql_inbound" {
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.rds_sg.id
+  source_security_group_id = aws_security_group.web_sg.id
+  description              = "Allow MySQL inbound traffic from web server SG"
+
+}
+
+resource "aws_security_group_rule" "allow_all_outbound_rds" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.rds_sg.id
+  description       = "Allow all outbound traffic"
+}
