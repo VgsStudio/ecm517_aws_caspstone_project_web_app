@@ -10,14 +10,13 @@ terraform {
 variable "aws_profile" {
   description = "The AWS profile to use"
   type        = string
-  default     = "soller-lab"
 
 }
 
 provider "aws" {
   region  = "us-east-1"
   profile = var.aws_profile
-  
+
   default_tags {
     tags = {
       ORIGIN = "TERRAFORM"
