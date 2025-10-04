@@ -22,6 +22,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 }
 
 resource "aws_db_instance" "aws_db_instance" {
+  db_name              = "STUDENTS"
   allocated_storage    = 20
   storage_type         = "gp2"
   engine               = "mysql"
