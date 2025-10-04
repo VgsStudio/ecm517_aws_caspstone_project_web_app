@@ -4,8 +4,7 @@ resource "aws_security_group" "web_sg" {
   vpc_id      = aws_vpc.main_vpc.id
 
   tags = {
-    Name   = "project-webapp-web-sg"
-    ORIGIN = "TERRAFORM"
+    Name = "project-webapp-web-sg"
   }
 
 }
@@ -65,7 +64,6 @@ resource "aws_instance" "web_server_1" {
   user_data                   = file("${path.module}/scripts/UserdataScript-phase-2.sh")
 
   tags = {
-    Name   = "project-webapp-web-server-1"
-    ORIGIN = "TERRAFORM"
+    Name = "project-webapp-web-server-1"
   }
 }

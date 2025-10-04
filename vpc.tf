@@ -3,8 +3,7 @@ resource "aws_vpc" "main_vpc" {
   instance_tenancy = "default"
 
   tags = {
-    Name   = "project-webapp-vpc"
-    ORIGIN = "TERRAFORM"
+    Name = "project-webapp-vpc"
   }
 }
 
@@ -15,8 +14,7 @@ resource "aws_subnet" "public_subnet_1" {
   availability_zone = "us-east-1a"
 
   tags = {
-    Name   = "project-webapp-public-subnet-1"
-    ORIGIN = "TERRAFORM"
+    Name = "project-webapp-public-subnet-1"
   }
 }
 
@@ -26,8 +24,7 @@ resource "aws_subnet" "private_subnet_1" {
   availability_zone = "us-east-1a"
 
   tags = {
-    Name   = "project-webapp-private-subnet-1"
-    ORIGIN = "TERRAFORM"
+    Name = "project-webapp-private-subnet-1"
   }
 }
 
@@ -37,8 +34,7 @@ resource "aws_subnet" "public_subnet_2" {
   availability_zone = "us-east-1b"
 
   tags = {
-    Name   = "project-webapp-public-subnet-2"
-    ORIGIN = "TERRAFORM"
+    Name = "project-webapp-public-subnet-2"
   }
 }
 
@@ -47,8 +43,7 @@ resource "aws_subnet" "private_subnet_2" {
   cidr_block        = "10.0.4.0/24"
   availability_zone = "us-east-1b"
   tags = {
-    Name   = "project-webapp-private-subnet-2"
-    ORIGIN = "TERRAFORM"
+    Name = "project-webapp-private-subnet-2"
   }
 }
 
@@ -56,8 +51,7 @@ resource "aws_internet_gateway" "main_igw" {
   vpc_id = aws_vpc.main_vpc.id
 
   tags = {
-    Name   = "project-webapp-igw"
-    ORIGIN = "TERRAFORM"
+    Name = "project-webapp-igw"
   }
 
 }
@@ -70,8 +64,7 @@ resource "aws_route_table" "public_rt" {
     gateway_id = aws_internet_gateway.main_igw.id
   }
   tags = {
-    Name   = "project-webapp-public-rt"
-    ORIGIN = "TERRAFORM"
+    Name = "project-webapp-public-rt"
   }
 }
 
@@ -88,8 +81,7 @@ resource "aws_route_table" "private_rt_1" {
   vpc_id = aws_vpc.main_vpc.id
 
   tags = {
-    Name   = "project-webapp-private-rt-1"
-    ORIGIN = "TERRAFORM"
+    Name = "project-webapp-private-rt-1"
   }
 }
 
@@ -102,8 +94,7 @@ resource "aws_route_table" "private_rt_2" {
   vpc_id = aws_vpc.main_vpc.id
 
   tags = {
-    Name   = "project-webapp-private-rt-2"
-    ORIGIN = "TERRAFORM"
+    Name = "project-webapp-private-rt-2"
   }
 }
 

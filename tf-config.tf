@@ -10,4 +10,9 @@ terraform {
 provider "aws" {
   region  = "us-east-1"
   profile = "soller-lab"
+  default_tags {
+    tags = {
+      ORIGIN = "TERRAFORM"
+    }
+  }
 }
