@@ -35,6 +35,6 @@ resource "aws_security_group_rule" "allow_all_from_cloud9_instance" {
   to_port           = 0
   protocol          = "-1"
   security_group_id = aws_security_group.web_sg.id
-  cidr_blocks       = ["10.0.1.195/32"]
+  cidr_blocks       = ["10.0.1.201/32"]
   description       = "Allow all inbound traffic from Cloud9 subnet"
 }

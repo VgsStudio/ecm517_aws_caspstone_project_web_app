@@ -70,7 +70,7 @@ resource "aws_instance" "web_server_1" {
 resource "aws_instance" "web_server_2" {
   ami                         = "ami-0360c520857e3138f" # Ubuntu Server 24.04 LTS (HVM), SSD Volume Type
   instance_type               = "t3.small"
-  subnet_id                   = aws_subnet.public_subnet_1.id
+  subnet_id                   = aws_subnet.public_subnet_2.id
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
   associate_public_ip_address = true
   iam_instance_profile        = "LabInstanceProfile"
@@ -111,7 +111,7 @@ resource "aws_security_group_rule" "allow_mysql_from_cloud9" {
   from_port         = 3306
   to_port           = 3306
   protocol          = "tcp"
-  cidr_blocks       = ["10.0.1.195/32"]
+  cidr_blocks       = ["10.0.1.201/32"]
   security_group_id = aws_security_group.rds_sg.id
   description       = "Allow MySQL inbound traffic from Cloud9 SG"
 }
