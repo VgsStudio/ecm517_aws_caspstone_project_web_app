@@ -53,19 +53,19 @@ resource "aws_security_group_rule" "allow_all_from_cloud9" {
   description              = "Allow all inbound traffic from Cloud9 SG"
 }
 
+# First Phase - Single Web Server
+# resource "aws_instance" "web_server_1" {
+#   ami                         = "ami-0360c520857e3138f" # Ubuntu Server 24.04 LTS (HVM), SSD Volume Type
+#   instance_type               = "t3.small"
+#   subnet_id                   = aws_subnet.public_subnet_1.id
+#   vpc_security_group_ids      = [aws_security_group.web_sg.id]
+#   associate_public_ip_address = true
+#   user_data                   = file("${path.module}/scripts/UserdataScript-phase-2.sh")
 
-resource "aws_instance" "web_server_1" {
-  ami                         = "ami-0360c520857e3138f" # Ubuntu Server 24.04 LTS (HVM), SSD Volume Type
-  instance_type               = "t3.small"
-  subnet_id                   = aws_subnet.public_subnet_1.id
-  vpc_security_group_ids      = [aws_security_group.web_sg.id]
-  associate_public_ip_address = true
-  user_data                   = file("${path.module}/scripts/UserdataScript-phase-2.sh")
-
-  tags = {
-    Name = "project-webapp-web-server-1"
-  }
-}
+#   tags = {
+#     Name = "project-webapp-web-server-1"
+#   }
+# }
 
 resource "aws_instance" "web_server_2" {
   ami                         = "ami-0360c520857e3138f" # Ubuntu Server 24.04 LTS (HVM), SSD Volume Type
