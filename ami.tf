@@ -20,7 +20,7 @@ output "web_server_2_ami_id" {
 
 resource "aws_ec2_instance_state" "web_server_2_stop" {
   instance_id = aws_instance.web_server_2.id
-  state       = "stopped" 
+  state       = "stopped"
 
   # This ensures the instance is stopped only after AMI is created
   depends_on = [aws_ami_from_instance.web_server_2_ami]
