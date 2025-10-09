@@ -104,3 +104,44 @@ resource "aws_route_table_association" "private_rt_assoc_2" {
   subnet_id      = aws_subnet.private_subnet_2.id
   route_table_id = aws_route_table.private_rt_2.id
 }
+
+# Security Group para VPC Endpoint
+resource "aws_security_group" "vpc_endpoint_sg" {
+  name        = "project-webapp-vpc-endpoint-sg"
+  description = "Security group for VPC endpoints"
+  vpc_id      = aws_vpc.main_vpc.id
+
+  tags = {
+    Name = "project-webapp-vpc-endpoint-sg"
+  }
+}
+
+resource "aws_security_group_rule" "vpc_endpoint_ingress_https" {
+  type                     = "ingress"
+  from_port                = 443
+  to_port                  = 443
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.vpc_endpoint_sg.id
+  source_security_group_id = aws_security_group.web_sg.id
+  description              = "Allow HTTPS from web servers"
+}
+
+# VPC Endpoint para AWS Secrets Manager
+resource "aws_vpc_endpoint" "secretsmanager" {
+  vpc_id            = aws_vpc.main_vpc.id
+  service_name      = "com.amazonaws.us-east-1.secretsmanager"
+  vpc_endpoint_type = "Interface"
+
+  subnet_ids = [
+    aws_subnet.public_subnet_1.id,
+    aws_subnet.public_subnet_2.id
+  ]
+
+  security_group_ids = [aws_security_group.vpc_endpoint_sg.id]
+
+  private_dns_enabled = true
+
+  tags = {
+    Name = "project-webapp-secretsmanager-endpoint"
+  }
+}
