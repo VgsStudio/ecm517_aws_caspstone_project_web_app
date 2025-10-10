@@ -43,16 +43,6 @@ resource "aws_security_group_rule" "allow_all_outbound" {
   description       = "Allow all outbound traffic"
 }
 
-resource "aws_security_group_rule" "allow_all_from_cloud9" {
-  type                     = "ingress"
-  from_port                = 0
-  to_port                  = 0
-  protocol                 = "-1"
-  security_group_id        = aws_security_group.web_sg.id
-  source_security_group_id = aws_security_group.cloud9_sg.id
-  description              = "Allow all inbound traffic from Cloud9 SG"
-}
-
 # First Phase - Single Web Server
 # resource "aws_instance" "web_server_1" {
 #   ami                         = "ami-0360c520857e3138f" # Ubuntu Server 24.04 LTS (HVM), SSD Volume Type
@@ -104,16 +94,6 @@ resource "aws_security_group_rule" "allow_mysql_inbound" {
   source_security_group_id = aws_security_group.web_sg.id
   description              = "Allow MySQL inbound traffic from web server SG"
 
-}
-
-resource "aws_security_group_rule" "allow_mysql_from_cloud9" {
-  type              = "ingress"
-  from_port         = 3306
-  to_port           = 3306
-  protocol          = "tcp"
-  cidr_blocks       = ["10.0.1.201/32"]
-  security_group_id = aws_security_group.rds_sg.id
-  description       = "Allow MySQL inbound traffic from Cloud9 SG"
 }
 
 resource "aws_security_group_rule" "allow_all_outbound_rds" {
