@@ -52,3 +52,57 @@ resource "aws_autoscaling_group" "web_server_2_asg" {
   }
 
 }
+
+# Política de Scaling: Scale UP (aumentar instâncias)
+resource "aws_autoscaling_policy" "scale_up" {
+  name                   = "project-webapp-scale-up"
+  scaling_adjustment     = 1 # Adiciona 1 instância por vez
+  adjustment_type        = "ChangeInCapacity"
+  cooldown               = 30 # Aguarda 30 segundos antes de escalar novamente
+  autoscaling_group_name = aws_autoscaling_group.web_server_2_asg.name
+}
+
+# CloudWatch Alarm: CPU > 60% → Scale UP
+resource "aws_cloudwatch_metric_alarm" "high_cpu" {
+  alarm_name          = "project-webapp-high-cpu"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 2 # 2 períodos consecutivos
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/EC2"
+  period              = 30 # 30 segundos
+  statistic           = "Average"
+  threshold           = 60 # 60% CPU
+  alarm_description   = "Triggers scale up when CPU > 60%"
+  alarm_actions       = [aws_autoscaling_policy.scale_up.arn]
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.web_server_2_asg.name
+  }
+}
+
+# Política de Scaling: Scale DOWN (reduzir instâncias)
+resource "aws_autoscaling_policy" "scale_down" {
+  name                   = "project-webapp-scale-down"
+  scaling_adjustment     = -1 # Remove 1 instância por vez
+  adjustment_type        = "ChangeInCapacity"
+  cooldown               = 300 # Aguarda 5 minutos antes de escalar novamente
+  autoscaling_group_name = aws_autoscaling_group.web_server_2_asg.name
+}
+
+# CloudWatch Alarm: CPU < 30% → Scale DOWN
+resource "aws_cloudwatch_metric_alarm" "low_cpu" {
+  alarm_name          = "project-webapp-low-cpu"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = 2 # 2 períodos consecutivos
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/EC2"
+  period              = 60 # 1 minuto
+  statistic           = "Average"
+  threshold           = 30 # 30% CPU
+  alarm_description   = "Triggers scale down when CPU < 30%"
+  alarm_actions       = [aws_autoscaling_policy.scale_down.arn]
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.web_server_2_asg.name
+  }
+}
