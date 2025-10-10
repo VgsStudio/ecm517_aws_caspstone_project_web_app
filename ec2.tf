@@ -8,28 +8,28 @@ resource "aws_security_group" "web_sg" {
   }
 
 }
+# If you want phase 2, uncomment the rules below
+# resource "aws_security_group_rule" "allow_http_inbound" {
+#   type              = "ingress"
+#   from_port         = 80
+#   to_port           = 80
+#   protocol          = "tcp"
+#   cidr_blocks       = ["0.0.0.0/0"]
+#   security_group_id = aws_security_group.web_sg.id
+#   description       = "Allow HTTP inbound traffic"
 
-resource "aws_security_group_rule" "allow_http_inbound" {
-  type              = "ingress"
-  from_port         = 80
-  to_port           = 80
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.web_sg.id
-  description       = "Allow HTTP inbound traffic"
+# }
 
-}
+# resource "aws_security_group_rule" "allow_https_inbound" {
+#   type              = "ingress"
+#   from_port         = 443
+#   to_port           = 443
+#   protocol          = "tcp"
+#   cidr_blocks       = ["0.0.0.0/0"]
+#   security_group_id = aws_security_group.web_sg.id
+#   description       = "Allow HTTPS inbound traffic"
 
-resource "aws_security_group_rule" "allow_https_inbound" {
-  type              = "ingress"
-  from_port         = 443
-  to_port           = 443
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.web_sg.id
-  description       = "Allow HTTPS inbound traffic"
-
-}
+# }
 
 resource "aws_security_group_rule" "allow_all_outbound" {
   type      = "egress"
