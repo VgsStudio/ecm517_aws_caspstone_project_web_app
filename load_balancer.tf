@@ -70,3 +70,23 @@ resource "aws_alb_listener" "web_server_2_listener" {
     target_group_arn = aws_alb_target_group.web_server_2_tg.arn
   }
 }
+
+resource "aws_security_group_rule" "allow_http_inbound_from_alb" {
+  type                     = "ingress"
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.web_sg.id
+  source_security_group_id = aws_security_group.alb_sg.id
+}
+
+
+resource "aws_security_group_rule" "allow_https_inbound_from_alb" {
+  type                     = "ingress"
+  from_port                = 443
+  to_port                  = 443
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.web_sg.id
+  source_security_group_id = aws_security_group.alb_sg.id
+}
+
